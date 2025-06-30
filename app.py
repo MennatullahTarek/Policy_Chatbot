@@ -1,6 +1,6 @@
 import streamlit as st
 import os
-from langchain_community.vectorstores import Chroma
+from langchain.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.document_loaders import TextLoader
