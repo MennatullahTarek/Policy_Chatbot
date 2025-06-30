@@ -1,5 +1,7 @@
 streamlit
 langchain
+langchain-community
+langchain-google-vertexai
 faiss-cpu
 sentence-transformers
 google-cloud-aiplatform
