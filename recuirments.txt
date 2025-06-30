@@ -1,10 +1,14 @@
 streamlit
-sentence-transformers
-google-cloud-aiplatform
 pysqlite3-binary
 langchain
 langchain-core
 langchain-community
 langchain-chroma
-chromadb==0.4.14
+langchain-huggingface
+langchain-google-vertexai
+chromadb==0.4.24
+sentence-transformers
+google-cloud-aiplatform
 google-generativeai
+numpy
+tiktoken
