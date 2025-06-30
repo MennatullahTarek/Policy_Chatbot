@@ -1,9 +1,10 @@
-langchain
-chromadb
 streamlit
 sentence-transformers
 google-cloud-aiplatform
+pysqlite3-binary
 langchain
+langchain-core
 langchain-community
-langchain-google-vertexai
-pysqlite3
+langchain-chroma
+chromadb==0.4.14
+google-generativeai
