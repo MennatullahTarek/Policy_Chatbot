@@ -1,11 +1,11 @@
 import streamlit as st
 import os
-from langchain_community.vectorstores import FAISS
+from langchain_community.vectorstores import Chroma
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.document_loaders import TextLoader
 from langchain.chains import RetrievalQA
-from langchain.llms import VertexAI
+from langchain_google_vertexai import VertexAI
 
 # ------------------- Load and Chunk Documents -------------------
 @st.cache_data
@@ -20,23 +20,23 @@ documents = load_docs()
 text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
 chunks = text_splitter.split_documents(documents)
 
-# ------------------- Embedding & Vector Store -------------------
+# ------------------- Embedding & Vector Store (Chroma - In-Memory) -------------------
 @st.cache_resource
 def create_vectorstore():
     embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-    vectordb = FAISS.from_documents(chunks, embeddings)
+    vectordb = Chroma.from_documents(chunks, embeddings)
     return vectordb
 
 vectordb = create_vectorstore()
 retriever = vectordb.as_retriever()
 
-# ------------------- LLM-based QA Chain (Gemini) -------------------
+# ------------------- LLM-based QA Chain (Gemini 1.5 Flash) -------------------
 llm = VertexAI(model_name="gemini-1.5-flash", temperature=0.2)
 qa_chain = RetrievalQA.from_chain_type(llm=llm, retriever=retriever)
 
 # ------------------- Streamlit UI -------------------
 st.set_page_config(page_title="Egypt Policy Assistant 🇪🇬")
-st.title("🤖 Egypt Policy Chatbot (RAG + Gemini 1.5 Flash)")
+st.title("🤖 Egypt Policy Chatbot (RAG + Gemini 1.5 Flash + Chroma)")
 st.markdown("Ask any question related to Egypt's national AI strategy or public governance.")
 
 query = st.text_input("Ask your question:")
@@ -46,4 +46,3 @@ if query:
         result = qa_chain.run(query)
     st.success("Answer:")
     st.write(result)
-
